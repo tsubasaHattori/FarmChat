@@ -1,0 +1,207 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  z-index: 100;
+}
+
+#app nav {
+    position: fixed;
+    width: 100%;
+    height: 55px;
+}
+
+.nav-margin {
+    height: 55px;
+}
+
+.hidden {
+    display: none;
+}
+
+.nav-container {
+    display: block;
+    margin-left: 10%;
+}
+
+.nav-menu {
+    background-color: white;
+}
+
+.nav-app-name {
+    color: black;
+    font-weight: 500;
+    font-size: 20px;
+    margin-left: 3%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-app-name img {
+    height: 40px;
+    margin-right: 5px;
+}
+
+@media screen and (min-width:720px) {
+    .navbar-laravel i {
+        display: none;
+    }
+}
+
+.nav-app-name:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.nav-guest li {
+    display: inline-block;
+}
+
+.nav-guest a {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.nav-toggler{
+    color: rgba(0, 0, 0, 0.6);
+    margin-right: 5%;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    border-radius: 0.25rem;
+}
+
+.nav-toggle-container {
+    background-color: #fff;
+    position: fixed;
+    right: 6%;
+    top: 6%;
+    border: 1px solid #DDDDDD;
+}
+
+.nav-toggle-items {
+    margin-bottom: 0;
+}
+
+.nav-toggle-items li a, .dropdown-item {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1.6;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.title-block {
+    text-align: right;
+}
+
+.title-block .page-title {
+    float: left;
+    font-size: 25px;
+}
+
+.title-block hr {
+    background-color: #AAAAAA;
+    margin: 8px 0 30px 0;
+}
+
+.head-title {
+    font-size: 25px;
+    border-bottom: solid 1px #AAAAAA;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.sub-title {
+    font-size: 18px;
+}
+
+.btn2 {
+    color: #FFFFFF;
+    background-color: #ffbb00;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 28px;
+    padding: 6px 16px;
+    border: transparent 1px solid;
+    border-radius: 100vh;
+    cursor: pointer;
+}
+
+.btn2:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn2:enabled:hover {
+    color: #FFFFFF;
+    opacity: 0.85;
+}
+
+.btn-positive {
+    background-color: #00bb77;
+}
+
+.btn-negative {
+    background-color: #ff3300;
+}
+
+.btn-help {
+    background-color: #0099ff;
+}

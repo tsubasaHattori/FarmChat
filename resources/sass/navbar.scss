@@ -1,0 +1,91 @@
+$sidebar-width: 240px;
+
+#nav-main-contents {
+    display: flex;
+    height: calc(100vh - 55px);
+}
+
+#sidebar {
+    width: $sidebar-width;
+    max-height: calc(100vh - 55px);
+    overflow: auto;
+    background-color: #16335F;
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+main {
+    width: calc(100vw - #{$sidebar-width});
+    max-height: calc(100vh - 55px);
+    padding: 35px 20px 20px 20px;
+    overflow: auto;
+}
+
+.sidebar-border {
+    background-color: #FFFFFF;
+    margin: auto;
+    width: 80%
+}
+
+.sidebar-menu-list {
+    padding: 0 0px;
+}
+
+.sidebar-menu-list .fa {
+    font-size: 22px;
+    margin-right: 8px;
+}
+
+.sidebar-menu-list li {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.sidebar-menu-list li a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.sidebar-menu-list > li > a {
+    font-size: 18px;
+    padding-left: 25px;
+}
+
+.sidebar-menu-list li a:hover{
+    opacity: 0.8;
+}
+
+.sidebar-menu-list li ul {
+    background-color: #486AA5;
+}
+
+.sub-item {
+    padding-left: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    // color: gold;
+}
+
+.sub-sub-item {
+    padding-left: 40px;
+    font-size: 14px;
+    text-decoration: underline;
+
+}
+
+.ai-chat-room {
+    padding-bottom: 6px;
+}
+
+@media screen and (max-width:720px) {
+    #sidebar {
+        display: none;
+    }
+
+    main {
+        width: 100vw;
+    }
+}
