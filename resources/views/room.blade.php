@@ -45,7 +45,6 @@
     <div class="title-block">
         <h2 class="page-title">ルーム一覧</h3>
         <button class="modal-open btn2 btn-positive create-room">新規ルーム作成</button>
-        <hr>
     </div>
 
     <div style="text-align: right;">

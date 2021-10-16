@@ -61,8 +61,8 @@
                 <div class="nav-toggle-container hidden">
                     <ul class="nav-toggle-items">
                         <li>
-                            <a class="dropdown-item">
-                                プロフィール編集
+                            <a class="dropdown-item" href="{{ route('account-setting') }}">
+                                個人設定
                             </a>
                         </li>
                         <li>

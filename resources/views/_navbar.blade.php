@@ -40,7 +40,7 @@
             </ul>
         </li>
         <li>
-            <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i>個人設定</a>
+            <a href="/account-setting"><i class="fa fa-wrench" aria-hidden="true"></i>個人設定</a>
         </li>
     </ul>
 </div>
