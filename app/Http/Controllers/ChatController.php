@@ -136,13 +136,31 @@ class ChatController extends Controller
 
         // Aiチャットルーム自動返信
         if ($room_type == 10) {
+            $folder_path = config('services.python_path');
+            preg_match('/train:@(\w+)/', $content, $match);
+            if (isset($match[1])) {
+                $exec_file = 'twitter_gen_text.py';
+                $params = $match[1];
+                foreach (config('services.twitter') as $value) {
+                    $params .= " ${value}";
+                }
+                $command = "python3 ${folder_path}${exec_file} ${params};";
+                exec($command, $output, $result_code);
+                $reply_content = $output[1];
+            } else {
+                $exec_file = 'chaplus_reply.py';
+                $params = $user_name . " " . $content . " " . config('services.chaplus.api_key');
+                $command = "python3 ${folder_path}${exec_file} ${params};";
+                exec($command, $output, $result_code);
+                $reply_content = $output[0];
+            }
+
             $max_id = $model::max('id');
-            $content = 'こんにちは！';
             $model->insert([
                 'id'               => $max_id + 1,
                 'user_id'          => 3,
                 'name'             => 'AIチャット',
-                'content'          => $content,
+                'content'          => $reply_content,
                 'reply_message_id' => null,
                 'room_id'          => $room_id,
             ]);
