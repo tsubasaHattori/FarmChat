@@ -38,6 +38,7 @@ Route::get('/room/{room_id}', 'ChatController@getAction');
 // });
 Route::get('/account-setting', 'AccountSettingController@getAction')->name('account-setting');
 Route::post('/account-setting', 'AccountSettingController@postAction');
+Route::post('/account-setting/delete', 'AccountSettingController@deleteAccount');
 
 
 Route::get('/board', 'ChatController@index')->name('board');

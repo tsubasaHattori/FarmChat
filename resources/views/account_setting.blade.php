@@ -6,12 +6,6 @@
 
 @section('header_script')
 <style>
-    .scroll-button {
-        position: fixed;
-        right: 20px;
-        bottom: 60px;
-        opacity: 0.7;
-    }
 </style>
 @endsection
 
@@ -19,10 +13,13 @@
 <div id="account-setting-container" class="container">
     <div class="title-block">
         <h2 class="page-title">個人設定</h3>
-        <!-- <button class="modal-open btn2 btn-positive create-room">新規ルーム作成</button> -->
+        <form id="account-delete" method="POST" action="/account-setting/delete">
+        @csrf
+            <button type="submit" class="btn2 btn-negative" @click.prevent="deleteAccount()">アカウント削除</button>
+        </form>
     </div>
 
-    <form method="POST">
+    <form id="save" method="POST" action="/account-setting">
     @csrf
         <div class="form-item-block">
             <p>名前</p>
@@ -33,7 +30,7 @@
             <input type="text" name="pronunciation" :value="selfUser.name_pronunciation" required>
         </div>
 
-        <button type="submit" class="btn2 btn-positive">保存</button>
+        <button type="submit" class="btn2 btn-positive" @click.prevent="save">保存</button>
     </form>
 
 </div>
@@ -48,18 +45,43 @@ var room = new Vue({
         selfUser: @json($self_user),
         rooms: @json($rooms),
     },
-    mounted: function() {
-        this.$nextTick(function () {
-        //     // ビュー全体がレンダリングされた後にのみ実行されるコード
-            this.scrollEnd();
-        });
-
-    },
     methods: {
-        scrollEnd: function() {
-            var elementHtml = document.documentElement;
-            var bottom = elementHtml.scrollHeight - elementHtml.clientHeight;
-            window.scrollTo(0, bottom);
+        save: function() {
+            Swal.fire({
+                title: '保存しています！',
+                html : '',
+                type : 'success',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 800,
+            }).then(function (result) {
+                document.getElementById('save').submit();
+            })
+        },
+
+        deleteAccount: function() {
+            Swal.fire({
+                title: 'アカウントを削除しますか？',
+                text: '',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '削除',
+                cancelButtonText : 'キャンセル',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '',
+                reverseButtons : false,
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire({
+                        title: '削除しました！',
+                        showConfirmButton: true,
+                        timer: 2000,
+                    }).then(function() {
+                        document.getElementById('account-delete').submit();
+                    });
+                }
+            });
         },
     }
 })
