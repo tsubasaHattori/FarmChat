@@ -16,5 +16,6 @@ mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .sass('resources/sass/navbar.scss', 'public/css')
    .sass('resources/sass/home.scss', 'public/css')
-   .sass('resources/sass/room.scss', 'public/css');
+   .sass('resources/sass/room.scss', 'public/css')
+   .sass('resources/sass/room_setting.scss', 'public/css');
 

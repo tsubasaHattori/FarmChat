@@ -37,6 +37,10 @@
                 <p>ルームキー</p>
                 <input type="text" name="room_key" value="" required>
             </div>
+            <div class="form-item-block">
+                <p>詳細設定</p>
+                <label><input type="checkbox" name="can_delete_message" checked>メッセージの削除を可能にする</label>
+            </div>
             <button class="btn2 btn-positive" type="submit">作成</button>
             <button class="modal-close btn2 btn-negative">キャンセル</button>
         </form>
@@ -50,28 +54,41 @@
     <div style="text-align: right;">
     </div>
 
-    <div class="public-room">
+    <div v-if="Object.keys(rooms.public).length" class="public-room">
         <h2 class="sub-title">公開ルーム</h2>
         <div class="room-block">
             <ul class="room-list">
                 <li v-for="(room, index) in rooms.public" :key="index" class="room-list-item">
-                    <a :href="'/room/' + room.id">
-                        <p class="room-name">@{{ room.room_name }}</p>
-                        <p>開設者: @{{ room.owner.name }}</p>
+                    <a :href="'/room/' + room.id" class="room-box">
+                        <p>
+                            <span class="room-name">@{{ room.room_name }}</span>
+                            <object><a :href="'/room/setting/' + room.id" class="room-setting">[ ルーム設定 ]</a></object>
+                        </p>
+                        <p class="room-description">
+                            <span>開設者: @{{ room.owner.name }}</span>
+                            <span>開設日: @{{ formatDate(room.created_at) }}</span>
+                        </p>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="private-room">
+    <div v-if="Object.keys(rooms.private).length" class="private-room">
         <h2 class="sub-title">プライベートルーム</h2>
         <div class="room-block">
             <ul class="room-list">
                 <li v-for="(room, index) in rooms.private" :key="index" class="room-list-item">
-                    <a :href="'/room/' + room.id">
-                        <p class="room-name">@{{ room.room_name }}</p>
-                        <p>開設者: @{{ room.owner.name }}</p>
+                    <a :href="'/room/' + room.id" class="room-box">
+                        <p>
+                            <span class="room-name">@{{ room.room_name }}</span>
+                            <i class="fas fa-key" style="font-size: 14px;"></i>
+                            <object><a :href="'/room/setting/' + room.id" class="room-setting">[ ルーム設定 ]</a></object>
+                        </p>
+                        <p class="room-description">
+                            <span>開設者: @{{ room.owner.name }}</span>
+                            <span>開設日: @{{ formatDate(room.created_at) }}</span>
+                        </p>
                     </a>
                 </li>
             </ul>
@@ -83,9 +100,12 @@
         <div class="room-block">
             <ul class="room-list">
                 <li class="room-list-item">
-                    <a href="{{ route('room-ai') }}">
+                    <a href="{{ route('room.ai') }}" class="room-box">
                         <p class="room-name">AIチャットルーム</p>
-                        <p>開設者: --</p>
+                        <p class="room-description">
+                            <span>開設者: --</span>
+                            <span>開設日: --</span>
+                        </p>
                     </a>
                 </li>
             </ul>
@@ -121,18 +141,21 @@ var room = new Vue({
     },
     mounted: function() {
         this.$nextTick(function () {
-        //     // ビュー全体がレンダリングされた後にのみ実行されるコード
             this.scrollEnd();
         });
 
     },
     methods: {
+        formatDate: function(date) {
+            return moment(date).format('YYYY/MM/DD');
+        },
+
         scrollEnd: function() {
             var elementHtml = document.documentElement;
             var bottom = elementHtml.scrollHeight - elementHtml.clientHeight;
             window.scrollTo(0, bottom);
         },
-    }
+    },
 })
 </script>
 @endsection

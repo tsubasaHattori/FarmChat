@@ -52,7 +52,7 @@ class AccountSettingController extends Controller
             'name_pronunciation' => $pronunciation,
         ]);
 
-        return redirect('account-setting');
+        return redirect()->route('account.setting');
     }
 
     public function deleteAccount(Request $req) {

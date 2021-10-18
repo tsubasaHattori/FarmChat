@@ -216,7 +216,7 @@ textarea {
             <div class="message" :class='[message.user_id == selfUser.id ? "my-message" : "others-message"]'>
                 <div class="upper-line">
                     <span class="writer">
-                    <i v-if="!message.is_deleted && message.user_id == selfUser.id" id="trash" class="fa fa-trash fa-lg" @click="deleteMessage(message)"></i>
+                    <i v-if="!message.is_deleted && message.user_id == selfUser.id && room.can_delete_message" id="trash" class="fa fa-trash fa-lg" @click="deleteMessage(message)"></i>
                     <i v-if="!message.is_deleted && message.user_id == selfUser.id" class="fa fa-comment fa-lg" style="margin-right: 3px;" @click="reply(message.id)"></i>
                     {{ users[message.user_id].name }}
                     <i v-if="!message.is_deleted && message.user_id != selfUser.id" class="fa fa-comment fa-lg" style="margin-left: 4px;" @click="reply(message.id)"></i>
@@ -434,10 +434,5 @@ textarea {
                 this.$emit('store');
             },
         },
-        filters: {
-            // moment: function (date) {
-            //     return moment(date).format("HH:mm");// eslint-disable-line
-            // }
-        }
     }
 </script>

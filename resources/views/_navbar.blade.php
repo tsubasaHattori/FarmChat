@@ -4,6 +4,8 @@
             <a href="/room"><i class="fa fa-commenting" aria-hidden="true"></i>ルーム一覧</a>
 
             <ul class="sub-list sidebar-room-list">
+                @empty($rooms['public'])
+                @else
                 <li>
                     <p class="sub-item">公開ルーム</p>
                     <ul>
@@ -14,6 +16,7 @@
                         @endforeach
                     </ul>
                 </li>
+                @endempty
 
                 @empty($rooms['private'])
                 @else

@@ -75,32 +75,6 @@ class ChatController extends Controller
         ]);
     }
 
-
-    // public function store(Request $req) {
-    //     $user = json_decode(Auth::user(), true);
-
-    //     $content = $req->content;
-
-    //     DB::table('messages')->insert([
-    //         'user_id' => $user['id'],
-    //         'name'    => $user['name'],
-    //         'content' => $content,
-    //     ]);
-
-    //     return redirect('home');
-    // }
-
-    // public function delete(Request $req) {
-    //     $message_id = $req->id;
-
-    //     DB::table('messages')->where('id', '=', $message_id)->update([
-    //         'is_deleted' => true,
-    //         'deleted_at' => Carbon::now(),
-    //     ]);
-
-    //     return redirect('home');
-    // }
-
     public function getMessages(Request $req) {
         $room_id = $req->room_id;
 
@@ -182,7 +156,6 @@ class ChatController extends Controller
 
         $model = new Message();
         $model->deleteMessage($message_id);
-        // $model->destroy($message_id);
 
         return [
             'message_id' => $message_id,

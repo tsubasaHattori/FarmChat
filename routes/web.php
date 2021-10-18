@@ -24,8 +24,12 @@ Auth::routes();
 Route::get('/room', 'RoomController@getListAction')->name('room');
 Route::post('/room/store', 'RoomController@store');
 
-Route::get('/room/ai-chat', 'ChatController@getAiRoom')->name('room-ai');
+Route::get('/room/ai-chat', 'ChatController@getAiRoom')->name('room.ai');
 Route::get('/room/{room_id}', 'ChatController@getAction');
+
+Route::get('/room/setting/{room_id}', 'RoomSettingController@getAction')->name('room.setting');
+Route::post('/room/setting/{room_id}', 'RoomSettingController@postAction');
+Route::post('/room/setting/delete/{room_id}', 'RoomSettingController@deleteRoom');
 
 
 // Route::prefix('api')->group(function() {
@@ -36,7 +40,7 @@ Route::get('/room/{room_id}', 'ChatController@getAction');
 
 
 // });
-Route::get('/account-setting', 'AccountSettingController@getAction')->name('account-setting');
+Route::get('/account-setting', 'AccountSettingController@getAction')->name('account.setting');
 Route::post('/account-setting', 'AccountSettingController@postAction');
 Route::post('/account-setting/delete', 'AccountSettingController@deleteAccount');
 

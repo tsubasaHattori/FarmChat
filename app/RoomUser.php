@@ -29,22 +29,15 @@ class RoomUser extends Model
             ->select('r.*')
             ->from('room_users as ru')
             ->join('rooms as r', 'ru.room_id', '=', 'r.id')
-            ->where('ru.user_id', '=', $user_id)
-            ->where('r.type', '=', 2)
-            ->orWhere('r.type', '=', 1)
+            ->where('r.is_deleted', '=', false)
+            ->where(function($query) use($user_id) {
+                $query
+                    ->where('r.type', '=', 2)
+                    ->where('ru.user_id', '=', $user_id)
+                    ->orWhere('r.type', '=', 1);
+            })
             ->get()
             ->toArray();
     }
 
-    // public function deleteMessage($message_id)
-    // {
-    //     $now = Carbon::now();
-
-    //     $this->from('messages as m')
-    //         ->where('m.id', $message_id)
-    //         ->update([
-    //             'is_deleted' => true,
-    //             'deleted_at' => $now,
-    //         ]);
-    // }
 }

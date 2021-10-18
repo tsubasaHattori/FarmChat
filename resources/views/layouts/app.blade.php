@@ -29,6 +29,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- favicon -->
@@ -63,7 +64,7 @@
                 <div class="nav-toggle-container hidden">
                     <ul class="nav-toggle-items">
                         <li>
-                            <a class="dropdown-item" href="{{ route('account-setting') }}">
+                            <a class="dropdown-item" href="{{ route('account.setting') }}">
                                 個人設定
                             </a>
                         </li>

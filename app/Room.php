@@ -47,25 +47,4 @@ class Room extends Model
             ->toArray();
     }
 
-    // public function findRoomsByUserId($user_id)
-    // {
-    //     return $this
-    //         ->select('*')
-    //         ->from($this->getTableName())
-    //         ->where('user_id', '=', $user_id)
-    //         ->get()
-    //         ->toArray();
-    // }
-
-    // public function deleteMessage($message_id)
-    // {
-    //     $now = Carbon::now();
-
-    //     $this->from('messages as m')
-    //         ->where('m.id', $message_id)
-    //         ->update([
-    //             'is_deleted' => true,
-    //             'deleted_at' => $now,
-    //         ]);
-    // }
 }

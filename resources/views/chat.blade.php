@@ -45,7 +45,6 @@ var home = new Vue({
     },
     mounted: function() {
         this.$nextTick(function () {
-        //     // ビュー全体がレンダリングされた後にのみ実行されるコード
             this.scrollEnd();
         });
 

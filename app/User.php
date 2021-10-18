@@ -41,4 +41,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getTableName()
+    {
+        return 'users';
+    }
+
+    public function findByUserId($user_id)
+    {
+        return $this
+            ->select('*')
+            ->from($this->getTableName())
+            ->where('id', '=', $user_id)
+            ->first()
+            ->toArray();
+    }
 }
