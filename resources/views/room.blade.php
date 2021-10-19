@@ -127,7 +127,6 @@
         </div>
     </div>
 
-    <button @click="scrollEnd" class="scroll-button"><i class="fa fa-arrow-down"></i>
 </div>
 @endsection
 
@@ -161,12 +160,6 @@ var room = new Vue({
             'room_id': '',
             'room_key': '',
         },
-    },
-    mounted: function() {
-        this.$nextTick(function () {
-            this.scrollEnd();
-        });
-
     },
     methods: {
         formatDate: function(date) {
@@ -206,12 +199,6 @@ var room = new Vue({
                 }
             })
             .catch(error => console.log(error))
-        },
-
-        scrollEnd: function() {
-            var elementHtml = document.documentElement;
-            var bottom = elementHtml.scrollHeight - elementHtml.clientHeight;
-            window.scrollTo(0, bottom);
         },
     },
 })

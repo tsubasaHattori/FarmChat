@@ -51,12 +51,8 @@ var home = new Vue({
     },
     methods: {
         scrollEnd: function() {
-            var elementHtml = document.documentElement;
-            var bottom = elementHtml.scrollHeight - elementHtml.clientHeight;
-            console.log(bottom);
-            console.log(elementHtml.scrollHeight);
-            console.log(elementHtml.clientHeight);
-            window.scrollTo(0, bottom);
+            var obj = document.getElementById("main");
+            obj.scrollTo(0, obj.scrollHeight);
         },
     }
 })

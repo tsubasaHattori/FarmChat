@@ -2,7 +2,7 @@
 <html style="height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158918923-2"></script>
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158918923-2"></script> -->
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -90,7 +90,7 @@
             @else
                 <div style="width: 100px;"></div>
             @endauth
-            <main>
+            <main id="main">
                 @yield('content')
             </main>
         </div>
