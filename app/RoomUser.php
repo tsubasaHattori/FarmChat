@@ -23,6 +23,16 @@ class RoomUser extends Model
         return 'room_users';
     }
 
+    public function findByRoomIdUserId($room_id, $user_id)
+    {
+        return $this
+            ->select('*')
+            ->from($this->getTableName())
+            ->where('room_id', '=', $room_id)
+            ->where('user_id', '=', $user_id)
+            ->first();
+    }
+
     public function findRoomsByUserId($user_id)
     {
         return $this

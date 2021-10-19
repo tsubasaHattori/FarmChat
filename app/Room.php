@@ -32,8 +32,17 @@ class Room extends Model
             ->select('*')
             ->from($this->getTableName())
             ->where('id', '=', $room_id)
-            ->first()
-            ->toArray();
+            ->first();
+    }
+
+    public function findByRoomIdRoomKey($room_id, $room_key)
+    {
+        return $this
+            ->select('*')
+            ->from($this->getTableName())
+            ->where('id', '=', $room_id)
+            ->where('room_key', '=', $room_key)
+            ->first();
     }
 
     public function findAiRoomByUserId($user_id)

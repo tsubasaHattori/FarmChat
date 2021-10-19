@@ -74,4 +74,40 @@ class RoomController extends Controller
 
         return redirect('room');
     }
+
+    public function search(Request $req) {
+        $self_user = Auth::user();
+
+        $room_id = $req->room_id;
+        $room_key = $req->room_key;
+
+        $room = (new Room())->findByRoomIdRoomKey($room_id, $room_key);
+        if (!$room) {
+            return [
+                'is_completed' => false,
+                'error_message' => 'ルームが存在しないか、ルームキーが違います',
+            ];
+        }
+
+        $RoomUser = new RoomUser();
+        $exist_room = $RoomUser->findByRoomIdUserId($room_id, $self_user['id']);
+        if ($exist_room) {
+            return [
+                'is_completed' => false,
+                'error_message' => '入室済みのプライベートルームです',
+            ];
+        }
+
+        $max_id = $RoomUser::max('id');
+        $RoomUser->insert([
+            'id'            => $max_id + 1,
+            'room_id'       => $room_id,
+            'user_id'       => $self_user['id'],
+            'is_admin'      => false,
+        ]);
+
+        return [
+            'is_completed' => true,
+        ];
+    }
 }

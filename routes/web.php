@@ -23,9 +23,10 @@ Auth::routes();
 // });
 Route::get('/room', 'RoomController@getListAction')->name('room');
 Route::post('/room/store', 'RoomController@store');
+Route::post('/api/room/search', 'RoomController@search');
 
 Route::get('/room/ai-chat', 'ChatController@getAiRoom')->name('room.ai');
-Route::get('/room/{room_id}', 'ChatController@getAction');
+Route::get('/room/{room_id}', 'ChatController@getAction')->name('room.chat');
 
 Route::get('/room/setting/{room_id}', 'RoomSettingController@getAction')->name('room.setting');
 Route::post('/room/setting/{room_id}', 'RoomSettingController@postAction');

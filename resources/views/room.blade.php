@@ -20,7 +20,7 @@
 <div id="room-container" class="container">
 
     <div id="overlay" class="overlay"></div>
-    <div class="modal-window">
+    <div class="modal-window modal-window-create">
         <form method="POST" action="/room/store" name="room-create-form" >
         @csrf
             <h2 class="head-title">新規ルーム作成</h3>
@@ -46,9 +46,24 @@
         </form>
     </div>
 
+    <div class="modal-window modal-window-search">
+        <h2 class="head-title">プライベートルーム検索</h3>
+        <div class="form-item-block">
+            <p>ルームID</p>
+            <input type="text" name="room_id" v-model="searchRoom.room_id" required>
+        </div>
+        <div class="form-item-block">
+            <p>ルームキー</p>
+            <input type="text" name="room_key" v-model="searchRoom.room_key" required>
+        </div>
+        <button class="btn2 btn-positive" @click="search()">入室</button>
+        <button class="modal-close btn2 btn-negative">キャンセル</button>
+    </div>
+
     <div class="title-block">
         <h2 class="page-title">ルーム一覧</h3>
-        <button class="modal-open btn2 btn-positive create-room">新規ルーム作成</button>
+        <button class="modal-open-create btn2 btn-positive">新規ルーム作成</button>
+        <button class="modal-open-search btn2 btn-help">プライベートルーム検索</button>
     </div>
 
     <div style="text-align: right;">
@@ -122,12 +137,16 @@
 $(function () {
 
 // modal
-$('.modal-open').click(function () {
-    $('#overlay, .modal-window').show();
+$('.modal-open-create').click(function () {
+    $('#overlay, .modal-window-create').show();
+});
+
+$('.modal-open-search').click(function () {
+    $('#overlay, .modal-window-search').show();
 });
 
 $('.modal-close, #overlay').click(function () {
-    $('#overlay, .modal-window').hide();
+    $('#overlay, .modal-window-create, .modal-window-search').hide();
 });
 
 });
@@ -138,6 +157,10 @@ var room = new Vue({
         selfUser: @json($self_user),
         rooms: @json($rooms),
         createRoomType: 'public',
+        searchRoom: {
+            'room_id': '',
+            'room_key': '',
+        },
     },
     mounted: function() {
         this.$nextTick(function () {
@@ -148,6 +171,41 @@ var room = new Vue({
     methods: {
         formatDate: function(date) {
             return moment(date).format('YYYY/MM/DD');
+        },
+
+        search: function(date) {
+            var url = '/api/room/search';
+            axios.post(url, {
+                room_id: this.searchRoom.room_id,
+                room_key: this.searchRoom.room_key,
+            })
+            .then((res)=>{
+                if (res.data.is_completed) {
+                    Swal.fire({
+                        title: '入室可能になりました！',
+                        html : '',
+                        type : 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1000,
+                    }).then(function (result) {
+                        window.location.href = "{{ route('room') }}";
+                    })
+
+                } else {
+                    Swal.fire({
+                        title: res.data.error_message,
+                        html : '',
+                        type : 'warning',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                    })
+                }
+            })
+            .catch(error => console.log(error))
         },
 
         scrollEnd: function() {
