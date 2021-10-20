@@ -2620,35 +2620,21 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    Echo.channel('chatbox').listen('SendMessage', function (e) {
-      console.log('listen!');
-      console.log(e.message);
+    var _this = this;
+
+    Echo.channel('room' + this.room.id).listen('PostMessage', function (e) {
+      var isStore = _this.messageMap[e.message.id] == undefined;
+
+      _this.$set(_this.messageMap, e.message.id, e.message);
+
+      if (isStore) {
+        _this.messages.push(e.message);
+
+        _this.scrollEnd();
+      }
     });
   },
-  mounted: function mounted() {
-    this.getMessages();
-    setInterval(this.getMessages, 3000);
-  },
   methods: {
-    getMessages: function getMessages() {
-      var _this = this;
-
-      var scroll = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var self = this;
-      var url = '/api/message/get/' + this.room.id;
-      axios.get(url).then(function (res) {
-        _this.messages = res.data.messages;
-        _this.messageMap = res.data.message_map;
-
-        if (scroll) {
-          setTimeout(function () {
-            self.$emit('store');
-          }, 0);
-        }
-      })["catch"](function (error) {
-        return console.log(error);
-      });
-    },
     storeMessage: function storeMessage() {
       var _this2 = this;
 
@@ -2664,14 +2650,23 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this2.isPosting = false;
         _this2.content = "";
-        _this2.replyMessageId = null, _this2.getMessages(true);
+        _this2.replyMessageId = null;
       })["catch"](function (error) {
         return console.log(error);
       });
+
+      if (this.room.type == 10) {
+        var _url = '/api/message/store/ai';
+        axios.post(_url, {
+          content: this.content,
+          user_name: this.selfUser.name,
+          room_id: this.room.id
+        }).then(function (res) {})["catch"](function (error) {
+          return console.log(error);
+        });
+      }
     },
     deleteMessage: function deleteMessage(message) {
-      var _this3 = this;
-
       if (!window.confirm('本当に削除しますか？')) {
         return false;
       }
@@ -2679,15 +2674,12 @@ __webpack_require__.r(__webpack_exports__);
       var url = '/api/message/delete/' + message.id;
       axios.post(url, {
         content: message.content
-      }).then(function (res) {
-        _this3.getMessages();
-      })["catch"](function (error) {
+      }).then(function (res) {})["catch"](function (error) {
         return console.log(error);
       });
-      return true;
     },
     editMessage: function editMessage() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.isPosting = true;
       var url = '/api/message/edit';
@@ -2696,19 +2688,16 @@ __webpack_require__.r(__webpack_exports__);
         content: this.content,
         reply_message_id: this.replyMessageId
       }).then(function (res) {
-        _this4.isPosting = false;
-        _this4.isEditing = false;
-        _this4.content = "";
-        _this4.editMessageId = null;
-        _this4.replyMessageId = null;
-
-        _this4.getMessages(true);
+        _this3.isPosting = false;
+        _this3.isEditing = false;
+        _this3.content = "";
+        _this3.editMessageId = null;
+        _this3.replyMessageId = null;
       })["catch"](function (error) {
         return console.log(error);
       });
     },
     edit: function edit(message) {
-      var self = this;
       this.isEditing = true;
       this.replyMessageId = null;
       this.editMessageId = message.id;
@@ -2717,9 +2706,7 @@ __webpack_require__.r(__webpack_exports__);
       if (message.reply_message_id) {
         this.reply(message.reply_message_id);
       } else {
-        setTimeout(function () {
-          self.$emit('store');
-        }, 0);
+        this.scrollEnd();
       }
     },
     cancelEdit: function cancelEdit() {
@@ -2730,12 +2717,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     reply: function reply(reply_message_id) {
       this.replyMessageId = reply_message_id;
-      this.$emit('store');
+      this.scrollEnd();
     },
-    sendMessage: function sendMessage() {
-      axios.post('/api/message/index', {
-        message: 'gaogao_message'
-      });
+    scrollEnd: function scrollEnd() {
+      var self = this;
+      setTimeout(function () {
+        self.$emit('store');
+      }, 0);
     }
   }
 });
@@ -45234,8 +45222,8 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._l(_vm.messages, function(message, index) {
-        return _c("div", { key: index, staticClass: "messages-block" }, [
+      _vm._l(_vm.messageMap, function(message, message_id, index) {
+        return _c("div", { key: message_id, staticClass: "messages-block" }, [
           _c("form", [
             _c("div", { staticClass: "day-change-line" }, [
               index == 0
@@ -45546,7 +45534,7 @@ var render = function() {
                       value: "投稿",
                       disabled: _vm.isPosting || !_vm.content
                     },
-                    on: { click: _vm.sendMessage }
+                    on: { click: _vm.storeMessage }
                   })
                 : _c("input", {
                     staticClass: "btn btn-square-shadow",

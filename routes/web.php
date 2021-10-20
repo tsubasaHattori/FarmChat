@@ -36,9 +36,9 @@ Route::post('/room/setting/delete/{room_id}', 'RoomSettingController@deleteRoom'
 // Route::prefix('api')->group(function() {
     Route::get('/api/message/get/{room_id}','ChatController@getMessages');
     Route::post('/api/message/store','ChatController@store');
-    Route::post('/api/message/delete/{message_id}','ChatController@destroy');
+    Route::post('/api/message/store/ai','ChatController@storeAiMessage');
+    Route::post('/api/message/delete/{message_id}','ChatController@delete');
     Route::post('/api/message/edit','ChatController@edit');
-    Route::post('/api/message/index','ChatController@index');
 
 
 // });

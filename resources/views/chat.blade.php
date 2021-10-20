@@ -21,8 +21,8 @@
     <component-message-form
         :self-user = selfUser
         :room = room
-        :initial-messages = messages
-        :initial-message-map = messageMap
+        :initial-messages = initialMessages
+        :initial-message-map = initialMessageMap
         :users = users
         @store="scrollEnd">
     </component-message-form>
@@ -39,8 +39,8 @@ var home = new Vue({
     data: {
         selfUser: @json($self_user),
         room: @json($room),
-        messages: @json($messages),
-        messageMap: @json($message_map),
+        initialMessages: @json($messages),
+        initialMessageMap: @json($message_map),
         users: @json($users),
     },
     mounted: function() {

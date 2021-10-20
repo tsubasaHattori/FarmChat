@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Room;
 use App\User;
-use App\Events\SendMessage;
+use App\Events\PostMessage;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -109,37 +109,8 @@ class ChatController extends Controller
             'room_id'          => $room_id,
         ]);
 
-        // Aiチャットルーム自動返信
-        if ($room_type == 10) {
-            $folder_path = config('services.python_path');
-            preg_match('/train:@(\w+)/', $content, $match);
-            if (isset($match[1])) {
-                $exec_file = 'twitter_gen_text.py';
-                $params = $match[1];
-                foreach (config('services.twitter') as $value) {
-                    $params .= " ${value}";
-                }
-                $command = "python3 ${folder_path}${exec_file} ${params};";
-                exec($command, $output, $result_code);
-                $reply_content = $output[1];
-            } else {
-                $exec_file = 'chaplus_reply.py';
-                $params = $user_name . " " . $content . " " . config('services.chaplus.api_key');
-                $command = "python3 ${folder_path}${exec_file} ${params};";
-                exec($command, $output, $result_code);
-                $reply_content = $output[0];
-            }
-
-            $max_id = $model::max('id');
-            $model->insert([
-                'id'               => $max_id + 1,
-                'user_id'          => 3,
-                'name'             => 'AIチャット',
-                'content'          => $reply_content,
-                'reply_message_id' => null,
-                'room_id'          => $room_id,
-            ]);
-        }
+        $inserted_message = $model->find($max_id+1);
+        event(new PostMessage($inserted_message));
 
         return [
             'id'               => $max_id + 1,
@@ -151,12 +122,67 @@ class ChatController extends Controller
         ];
     }
 
-    public function destroy(Request $req) {
+    public function storeAiMessage(Request $req) {
+        $content = $req->content;
+        $user_name = $req->user_name;
+        $room_id = $req->room_id;
+
+        $folder_path = config('services.python_path');
+        preg_match('/train:@(\w+)/', $content, $match);
+        if (isset($match[1])) {
+            $exec_file = 'twitter_gen_text.py';
+            $params = $match[1];
+            foreach (config('services.twitter') as $value) {
+                $params .= " ${value}";
+            }
+            $command = "python3 ${folder_path}${exec_file} ${params};";
+            exec($command, $output, $result_code);
+            $reply_content = $output[1];
+        } else {
+            $exec_file = 'chaplus_reply.py';
+            $params = $user_name . " " . $content . " " . config('services.chaplus.api_key');
+            $command = "python3 ${folder_path}${exec_file} ${params};";
+            exec($command, $output, $result_code);
+            $reply_content = $output[0];
+        }
+
+        $model = new Message();
+        $max_id = $model::max('id');
+
+        $model->insert([
+            'id'               => $max_id + 1,
+            'user_id'          => 3,
+            'name'             => 'AIチャット',
+            'content'          => $reply_content,
+            'reply_message_id' => null,
+            'room_id'          => $room_id,
+        ]);
+
+        $inserted_message = $model->find($max_id+1);
+        event(new PostMessage($inserted_message));
+
+        return [
+            'id'               => $max_id + 1,
+            'user_id'          => 3,
+            'name'             => 'AIチャット',
+            'content'          => $reply_content,
+            'reply_message_id' => null,
+            'room_id'          => $room_id,
+        ];
+    }
+
+    public function delete(Request $req) {
         $message_id = $req->message_id;
         $content = $req->get('content');
 
         $model = new Message();
-        $model->deleteMessage($message_id);
+        $model->where('id', '=', $message_id)->update([
+            'is_deleted' => true,
+            'deleted_at' => Carbon::now(),
+        ]);
+
+        $inserted_message = $model->find($message_id);
+        event(new PostMessage($inserted_message));
 
         return [
             'message_id' => $message_id,
@@ -170,27 +196,19 @@ class ChatController extends Controller
         $reply_message_id = $req->get('reply_message_id');
 
         $model = new Message();
-        $targetMessage = $model->find($message_id);
-
-        $targetMessage->update([
+        $model->where('id', '=', $message_id)->update([
             'content'          => $content,
             'reply_message_id' => $reply_message_id,
             'is_edited'        => true,
         ]);
+
+        $inserted_message = $model->find($message_id);
+        event(new PostMessage($inserted_message));
 
         return [
             'content'          => $content,
             'reply_message_id' => $reply_message_id,
             'is_edited'        => true,
         ];
-    }
-
-    public function index(Request $request)
-    {
-        $message = $request->input('message', '');
-
-        if (strlen($message)) {
-            event(new SendMessage($message));
-        }
     }
 }

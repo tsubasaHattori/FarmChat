@@ -203,7 +203,7 @@ textarea {
 
 <template>
 <div>
-    <div v-for="(message, index) in messages" :key="index" class="messages-block">
+    <div v-for="(message, message_id, index) in messageMap" :key="message_id" class="messages-block">
         <form>
             <div class="day-change-line">
                 <div v-if="index == 0" class="day-change-block">
@@ -292,7 +292,7 @@ textarea {
         <div class="store-form">
             内容<br>
             <textarea v-model="content" name="content" style="width: 100%; height: 80px;" required></textarea><br>
-            <input v-if="!isEditing" @click="sendMessage" class="btn btn-square-shadow" type="submit" value="投稿" :disabled="isPosting || !content">
+            <input v-if="!isEditing" @click="storeMessage" class="btn btn-square-shadow" type="submit" value="投稿" :disabled="isPosting || !content">
             <input v-else @click="editMessage" class="btn btn-square-shadow" type="submit" value="修正" :disabled="isPosting || !content">
         </div>
         <hr width = "100%"></center>
@@ -322,38 +322,20 @@ textarea {
             }
         },
         created() {
-            Echo.channel('chatbox')
-                .listen('SendMessage', (e) => {
-                    console.log('listen!');
-                    console.log(e.message);
-                });
-        },
-        mounted: function() {
-            this.getMessages();
-            setInterval(this.getMessages, 3000);
+            Echo.channel('room' + this.room.id).listen('PostMessage', (e) => {
+                let isStore = this.messageMap[e.message.id] == undefined;
+                this.$set(this.messageMap, e.message.id, e.message);
+                if (isStore) {
+                    this.messages.push(e.message);
+                    this.scrollEnd();
+                }
+            });
         },
         methods: {
-            getMessages: function(scroll = false) {
-                var self = this;
-                var url = '/api/message/get/' + this.room.id;
-                axios.get(url)
-                .then((res)=>{
-                    this.messages = res.data.messages;
-                    this.messageMap = res.data.message_map;
-
-                    if (scroll) {
-                        setTimeout(function() {
-                            self.$emit('store');
-                        }, 0);
-                    }
-                })
-                .catch(error => console.log(error))
-            },
-
             storeMessage: function() {
                 this.isPosting = true;
 
-                var url = '/api/message/store';
+                let url = '/api/message/store';
                 axios.post(url, {
                     user_id: this.selfUser.id,
                     user_name: this.selfUser.name,
@@ -365,10 +347,20 @@ textarea {
                 .then((res)=>{
                     this.isPosting = false;
                     this.content = "";
-                    this.replyMessageId = null,
-                    this.getMessages(true);
+                    this.replyMessageId = null;
                 })
                 .catch(error => console.log(error))
+
+                if (this.room.type == 10) {
+                    let url = '/api/message/store/ai';
+                    axios.post(url, {
+                        content: this.content,
+                        user_name: this.selfUser.name,
+                        room_id: this.room.id,
+                    })
+                    .then((res)=>{})
+                    .catch(error => console.log(error))
+                }
             },
 
             deleteMessage: function(message) {
@@ -376,22 +368,18 @@ textarea {
                     return false;
                 }
 
-                var url = '/api/message/delete/' + message.id;
+                let url = '/api/message/delete/' + message.id;
                 axios.post(url, {
                     content: message.content,
                 })
-                .then((res)=>{
-                    this.getMessages();
-                })
+                .then((res)=>{})
                 .catch(error => console.log(error))
-
-                return true;
             },
 
             editMessage: function() {
                 this.isPosting = true;
 
-                var url = '/api/message/edit';
+                let url = '/api/message/edit';
                 axios.post(url, {
                     message_id: this.editMessageId,
                     content: this.content,
@@ -403,14 +391,11 @@ textarea {
                     this.content = "";
                     this.editMessageId = null;
                     this.replyMessageId = null;
-                    this.getMessages(true);
                 })
                 .catch(error => console.log(error))
             },
 
             edit: function(message) {
-                var self = this;
-
                 this.isEditing = true;
                 this.replyMessageId = null;
                 this.editMessageId = message.id;
@@ -418,9 +403,7 @@ textarea {
                 if (message.reply_message_id) {
                     this.reply(message.reply_message_id);
                 } else {
-                    setTimeout(function() {
-                        self.$emit('store');
-                    }, 0);
+                    this.scrollEnd();
                 }
             },
 
@@ -433,11 +416,14 @@ textarea {
 
             reply: function(reply_message_id) {
                 this.replyMessageId = reply_message_id;
-                this.$emit('store');
+                this.scrollEnd();
             },
 
-            sendMessage: function() {
-                axios.post('/api/message/index', {message: 'gaogao_message'});
+            scrollEnd: function() {
+                let self = this;
+                setTimeout(function() {
+                    self.$emit('store');
+                }, 0);
             },
         },
     }
