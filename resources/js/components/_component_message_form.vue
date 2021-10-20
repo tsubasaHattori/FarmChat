@@ -292,7 +292,7 @@ textarea {
         <div class="store-form">
             内容<br>
             <textarea v-model="content" name="content" style="width: 100%; height: 80px;" required></textarea><br>
-            <input v-if="!isEditing" @click="storeMessage" class="btn btn-square-shadow" type="submit" value="投稿" :disabled="isPosting || !content">
+            <input v-if="!isEditing" @click="sendMessage" class="btn btn-square-shadow" type="submit" value="投稿" :disabled="isPosting || !content">
             <input v-else @click="editMessage" class="btn btn-square-shadow" type="submit" value="修正" :disabled="isPosting || !content">
         </div>
         <hr width = "100%"></center>
@@ -321,13 +321,15 @@ textarea {
                 editMessageId: null,
             }
         },
+        created() {
+            Echo.channel('chatbox')
+                .listen('SendMessage', (e) => {
+                    console.log('listen!');
+                    console.log(e.message);
+                });
+        },
         mounted: function() {
-            this.$nextTick(function () {
-                // ビュー全体がレンダリングされた後にのみ実行されるコード
-            });
-
             this.getMessages();
-
             setInterval(this.getMessages, 3000);
         },
         methods: {
@@ -432,6 +434,10 @@ textarea {
             reply: function(reply_message_id) {
                 this.replyMessageId = reply_message_id;
                 this.$emit('store');
+            },
+
+            sendMessage: function() {
+                axios.post('/api/message/index', {message: 'gaogao_message'});
             },
         },
     }

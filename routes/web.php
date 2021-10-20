@@ -38,6 +38,7 @@ Route::post('/room/setting/delete/{room_id}', 'RoomSettingController@deleteRoom'
     Route::post('/api/message/store','ChatController@store');
     Route::post('/api/message/delete/{message_id}','ChatController@destroy');
     Route::post('/api/message/edit','ChatController@edit');
+    Route::post('/api/message/index','ChatController@index');
 
 
 // });

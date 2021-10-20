@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Message;
 use App\Room;
 use App\User;
+use App\Events\SendMessage;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -182,5 +183,14 @@ class ChatController extends Controller
             'reply_message_id' => $reply_message_id,
             'is_edited'        => true,
         ];
+    }
+
+    public function index(Request $request)
+    {
+        $message = $request->input('message', '');
+
+        if (strlen($message)) {
+            event(new SendMessage($message));
+        }
     }
 }
