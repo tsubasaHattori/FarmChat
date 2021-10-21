@@ -36,8 +36,8 @@
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico') }}">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/navbar.css') }}" rel="stylesheet">
     @yield('style')
 </head>
 <body style="height: 100%">

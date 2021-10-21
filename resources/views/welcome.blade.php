@@ -48,7 +48,7 @@
     <body>
         <div style="text-align: center; height: 100%;">
             <div class="title" style="padding: 10%;">
-                <img src="{{ asset('img/logo.png') }}" alt="" style="height: 90px;">
+                <img src="{{ mix('img/logo.png') }}" alt="" style="height: 90px;">
             </div>
             @if (Route::has('login'))
                 <div class="top-right links">

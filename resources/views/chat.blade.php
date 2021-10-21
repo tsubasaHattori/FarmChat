@@ -2,7 +2,7 @@
 @section('title', 'FarmChat Home')
 
 @section('style')
-<!-- <link rel="stylesheet" href="{{ asset('css/home.css') }}"> -->
+<!-- <link rel="stylesheet" href="{{ mix('css/home.css') }}"> -->
 @endsection
 
 @section('header_script')

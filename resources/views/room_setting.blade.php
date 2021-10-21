@@ -2,7 +2,7 @@
 @section('title', 'FarmChat room-setting')
 
 @section('style')
-<link rel="stylesheet" href="{{ asset('css/room_setting.css') }}">
+<link rel="stylesheet" href="{{ mix('css/room_setting.css') }}">
 @endsection
 
 @section('header_script')
