@@ -10926,7 +10926,7 @@ a.text-dark:focus {
 }
 
 @media screen and (min-width: 720px) {
-  .navbar-laravel i {
+  #toggle-sidebar {
     display: none;
   }
 }

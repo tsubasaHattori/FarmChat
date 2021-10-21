@@ -43,7 +43,7 @@
 <body style="height: 100%">
     <div id="app" style="height: 100%">
         <nav class="navbar navbar-light navbar-laravel">
-            <i class="fa fa-bars"></i>
+            <i id="toggle-sidebar" class="fa fa-bars"></i>
             <a class="nav-app-name" href="{{ url('/') }}">
                 <img src="{{ asset('img/logo.png') }}" alt="">
             </a>
@@ -97,6 +97,7 @@
     </div>
 
 <script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/navbar.js') }}"></script>
 @yield('footer_script')
 </body>
 </html>

@@ -1,3 +1,4 @@
+<div id="sidebar-overlay"></div>
 <div id="sidebar">
     <ul class="sidebar-menu-list">
         <li>
