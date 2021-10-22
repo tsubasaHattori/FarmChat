@@ -20,35 +20,12 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100%;
-                margin: 0;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 30px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                /* text-decoration: none; */
-                text-transform: uppercase;
-            }
-        </style>
+        <link rel="stylesheet" href="{{ mix('css/welcome.css') }}">
     </head>
     <body>
         <div style="text-align: center; height: 100%;">
             <div class="title" style="padding: 10%;">
-                <img src="{{ mix('img/logo.png') }}" alt="" style="height: 90px;">
+                <img src="{{ asset('img/logo.png') }}" alt="" class="logo-img">
             </div>
             @if (Route::has('login'))
                 <div class="top-right links">

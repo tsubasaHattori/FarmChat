@@ -103,8 +103,8 @@ main {
         width: 100%;
         height: calc(100vh - 55px);
         z-index: 2000;
-        -webkit-transition: all .4s ease-in-out 0s;
-        transition: all .4s ease-in-out 0s;
+        -webkit-transition: all .3s linear 0s;
+        transition: all .3s linear 0s;
 
         &.sidebar-overlay-open {
             left: 0;

@@ -1,0 +1,42 @@
+html,
+body {
+  background-color: #fff;
+  color: #636b6f;
+  font-family: "Nunito", sans-serif;
+  font-weight: 200;
+  height: 100%;
+  margin: 0;
+}
+
+.title {
+  font-size: 84px;
+}
+
+.links > a {
+  color: #636b6f;
+  padding: 0 25px;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  /* text-decoration: none; */
+  text-transform: uppercase;
+}
+
+.logo-img {
+  width: 70%;
+}
+
+@media screen and (max-width: 720px) {
+  .title {
+    margin-top: 50%;
+  }
+
+  .logo-img {
+    width: 100%;
+  }
+
+  .links > a {
+    font-size: 25px;
+  }
+}
+

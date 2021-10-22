@@ -24,17 +24,17 @@
 .room-name {
   margin-bottom: 5px;
   font-size: 18px;
-  text-decoration: underline;
 }
 
 .room-setting {
   display: inline;
   margin-left: 20px;
+  color: #006600;
+  text-decoration: underline;
 }
 
 .room-setting:hover {
-  text-decoration: underline;
-  color: #1d68a7;
+  color: #009966;
 }
 
 .room-description {
@@ -48,6 +48,31 @@
   margin-right: 20px;
 }
 
+.sub-title-block {
+  position: relative;
+  text-align: right;
+}
+
+.sub-title-block .sub-title {
+  float: left;
+  position: absolute;
+  bottom: 0;
+}
+
+.sub-title-block button {
+  margin-bottom: 8px;
+}
+
+@media screen and (max-width: 720px) {
+  .room-box p object {
+    display: block;
+  }
+
+  .room-setting {
+    margin-left: 10px;
+  }
+}
+
 .modal-window {
   display: none;
   position: fixed;
@@ -55,10 +80,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40vw;
-  height: 40vh;
   background-color: #f8fafc;
   border-radius: 8px;
-  z-index: 11;
+  z-index: 201;
   padding: 2rem;
 }
 
@@ -70,10 +94,19 @@
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 200;
 }
 
 .modal-close {
   margin-left: 10px;
+}
+
+@media screen and (max-width: 720px) {
+  .modal-window {
+    top: 50%;
+    left: 50%;
+    width: 90vw;
+    padding: 10px 20px 20px 15px;
+  }
 }
 

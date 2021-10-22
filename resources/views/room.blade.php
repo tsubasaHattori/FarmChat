@@ -62,8 +62,7 @@
 
     <div class="title-block">
         <h2 class="page-title">ルーム一覧</h3>
-        <button class="modal-open-create btn2 btn-positive">新規ルーム作成</button>
-        <button class="modal-open-search btn2 btn-help">プライベートルーム検索</button>
+        <button class="modal-open-create btn2">ルーム作成</button>
     </div>
 
     <div style="text-align: right;">
@@ -77,7 +76,7 @@
                     <a :href="'/room/' + room.id" class="room-box">
                         <p>
                             <span class="room-name">@{{ room.room_name }}</span>
-                            <object><a :href="'/room/setting/' + room.id" class="room-setting">[ ルーム設定 ]</a></object>
+                            <object><a :href="'/room/setting/' + room.id" class="room-setting"><i class="fas fa-cog"></i> ルーム設定 </a></object>
                         </p>
                         <p class="room-description">
                             <span>開設者: @{{ room.owner.name }}</span>
@@ -90,7 +89,10 @@
     </div>
 
     <div v-if="Object.keys(rooms.private).length" class="private-room">
-        <h2 class="sub-title">プライベートルーム</h2>
+        <div class="sub-title-block">
+            <h2 class="sub-title">プライベートルーム</h2>
+            <button class="modal-open-search btn2 btn-positive">ルーム検索</button>
+        </div>
         <div class="room-block">
             <ul class="room-list">
                 <li v-for="(room, index) in rooms.private" :key="index" class="room-list-item">

@@ -10916,13 +10916,28 @@ a.text-dark:focus {
   font-weight: 500;
   font-size: 20px;
   margin-left: 3%;
-  display: flex;
   align-items: center;
 }
 
 .nav-app-name img {
   height: 40px;
-  margin-right: 5px;
+}
+
+@media screen and (max-width: 720px) {
+  .nav-app-name {
+    width: 45%;
+    margin-left: 0;
+  }
+
+  .nav-app-name img {
+    width: 100%;
+    height: auto;
+    margin-top: 6px;
+  }
+
+  .nav-link {
+    padding: 5px 10px;
+  }
 }
 
 @media screen and (min-width: 720px) {

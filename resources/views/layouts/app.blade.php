@@ -43,7 +43,9 @@
 <body style="height: 100%">
     <div id="app" style="height: 100%">
         <nav class="navbar navbar-light navbar-laravel">
+            @auth
             <i id="toggle-sidebar" class="fa fa-bars"></i>
+            @endauth
             <a class="nav-app-name" href="{{ url('/') }}">
                 <img src="{{ asset('img/logo.png') }}" alt="">
             </a>
@@ -87,8 +89,6 @@
         <div id="nav-main-contents">
             @auth
                 @include('_navbar')
-            @else
-                <div style="width: 100px;"></div>
             @endauth
             <main id="main">
                 @yield('content')
