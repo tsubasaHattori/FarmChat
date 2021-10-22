@@ -100,7 +100,7 @@
                         <p>
                             <span class="room-name">@{{ room.room_name }}</span>
                             <i class="fas fa-key" style="font-size: 14px;"></i>
-                            <object><a :href="'/room/setting/' + room.id" class="room-setting">[ ルーム設定 ]</a></object>
+                            <object><a :href="'/room/setting/' + room.id" class="room-setting"><i class="fas fa-cog"></i> ルーム設定</a></object>
                         </p>
                         <p class="room-description">
                             <span>開設者: @{{ room.owner.name }}</span>
